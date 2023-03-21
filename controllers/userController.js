@@ -2,28 +2,37 @@ const User = require("../Model/User");
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({});
-    res.status(201).json({ message: "oldlo", users });
+    const users = await User.find();
+    if (!users) {
+      res.status(200).json({ message: "Хэрэглэгчдийн мэдээлэл хоосон байна." });
+    }
+
+    res.status(201).json({ message: "Хэрэглэгчдийн мэдээлэл олдлоо.", users });
   } catch (error) {
-    res.status(400).json({ message: "alda garla", error: error.message });
+    // res.status(400).json({ message: "alda garla", error: error.message });
+    next(error);
   }
 };
 
-const createUser = async (req, res) => {
-  const { name, email, password } = req.body;
+const createUser = async (req, res, next) => {
+  const { name, email, password, profileImg } = req.body;
 
-  if (!name || !email || !password) {
-    res.status(400).json({ message: "invalid name, email or password!!" });
-  }
   try {
+    if (!name || !email || !password) {
+      res
+        .status(400)
+        .json({ message: "Нэр, имэйл эсвэл нууц үг байхгүй байна." });
+    }
+
     const user = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
+      name,
+      email,
+      password,
+      profileImg,
     });
-    res.status(201).json({ message: "success", user });
-  } catch (error) {
-    res.status(400).json({ message: "unsuccessful!", error: error.message });
+    res.status(201).json({ message: "Амжилттай бүртгэгдлээ", user });
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -34,9 +43,13 @@ const getUser = async (req, res) => {
   }
   try {
     const user = await User.findById(id);
-    res.status(201).json({ message: `iim ${id} tai user oldtson!`, user });
+    if (!user) {
+      res.status(400).json({ message: `${id} tai hereglech obso!` });
+    }
+    res.status(200).json({ message: `iim ${id} tai user oldtson!`, user });
   } catch (error) {
-    res.status(400).json({ message: "error", error: error.message });
+    // res.status(400).json({ message: "error", error: error.message });
+    next(error);
   }
 };
 
@@ -47,11 +60,13 @@ const updateUser = async (req, res) => {
   }
   try {
     const user = await User.findByIdAndUpdate(id, req.body, { new: true });
-    res
-      .status(201)
-      .json({ message: `iim ${id} tai user update hiigdle!`, user });
+    if (!user) {
+      res.status(400).json({ message: `${id} -тэй хэрэглэгч олдсонгүй.` });
+    }
+    res.status(200).json({ message: `${id} тэй хэрэглэгч шинэчлэгдлээ`, user });
   } catch (error) {
-    res.status(400).json({ message: "error", error: error.message });
+    // res.status(400).json({ message: "error", error: error.message });
+    next(error);
   }
 };
 
@@ -64,7 +79,8 @@ const deleteUser = async (req, res) => {
     const user = await User.findByIdAndDelete(id);
     res.status(201).json({ message: `iim ${id} tai user delete!`, user });
   } catch (error) {
-    res.status(400).json({ message: "error", error: error.message });
+    // res.status(400).json({ message: "error", error: error.message });
+    next(error);
   }
 };
 
