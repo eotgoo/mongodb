@@ -84,4 +84,27 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getAllUsers, getUser, updateUser, deleteUser };
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await User.find({ email, password });
+
+  try {
+    if (!user.length) {
+      res.status(400).json({ message: `email or password bru bna! `, user });
+      return;
+    }
+    res.status(200).json({ message: `success`, user });
+  } catch {
+    // res.status(400).json({ message: "error", error: error.message });
+    next(err);
+  }
+};
+
+module.exports = {
+  createUser,
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser,
+  login,
+};
