@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const CategorySchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, "category nerig zwl orul!"],
   },
   description: {
     type: String,

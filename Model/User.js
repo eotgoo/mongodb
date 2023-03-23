@@ -5,12 +5,15 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "neree zwl oruul!!!!!!"],
   },
-  profileImg: String,
   email: {
     type: String,
     unique: true,
   },
-  password: String,
+  password: {
+    type: String,
+    select: false,
+  },
+  profileImg: String,
   role: {
     type: String,
     enum: ["User", "Admin"],
