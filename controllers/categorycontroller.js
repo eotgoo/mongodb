@@ -16,9 +16,7 @@ const createCategory = async (req, res) => {
   const { title, description, categoryImg, categoryRating } = req.body;
 
   if (!title || !description || !categoryRating) {
-    res
-      .status(400)
-      .json({ message: "Нэр, имэйл эсвэл нууц үг байхгүй байна." });
+    res.status(400).json({ message: "hhoson bna" });
   }
   try {
     const category = await Category.create({

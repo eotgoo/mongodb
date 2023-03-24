@@ -101,7 +101,7 @@ const login = async (req, res, next) => {
     const checkPass = bcrypt.compareSync(req.body.password, user.password);
 
     if (!checkPass) {
-      res.status(400).json({ message: `Имэйл эсвэл нууц үг буруу байна` });
+      res.status(400).json({ message: `Имэйл эсвэл нууц үг буруу!` });
     }
 
     const { password, _id, name, email, role } = user;

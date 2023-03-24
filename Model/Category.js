@@ -9,7 +9,7 @@ const CategorySchema = new mongoose.Schema({
     type: String,
     maxlength: [500, "hamgin ihde 500!!"],
   },
-  catergoryImg: {
+  categoryImg: {
     type: String,
   },
   categoryRating: Number,
