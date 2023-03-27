@@ -23,7 +23,7 @@ const getTravel = async (req, res, next) => {
   try {
     const travel = await Travel.findById(id);
     if (!travel) {
-      res.status(400).json({ message: "travel is not found ???", travel });
+      res.status(400).json({ message: "travel !!!!!???", travel });
     }
     res.status(200).json({ message: "travel medeelel oldtson", travel });
   } catch (err) {
@@ -32,7 +32,7 @@ const getTravel = async (req, res, next) => {
 };
 
 const createTravel = async (req, res, next) => {
-  const { title, images, detail, price, day, category } = req.body;
+  const { title, images, detail, location, price, day, category } = req.body;
   try {
     if (!title || !images || !price) {
       res.status(400).json({ message: "obso" });
@@ -42,6 +42,7 @@ const createTravel = async (req, res, next) => {
       title,
       images,
       detail,
+      location,
       price,
       day,
       category,
