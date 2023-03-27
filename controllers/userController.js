@@ -38,7 +38,7 @@ const createUser = async (req, res, next) => {
   }
 };
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
     res.status(400).json({ message: `${id} iim user alga!!` });
