@@ -8,12 +8,20 @@ const {
   login,
   register,
 } = require("../controllers/userController");
-const checkRole = require("../utils/checkRole");
+const { checkLogin, authorization } = require("../logger/auth");
+
 const router = express.Router();
 
 router.post("/login", login);
 router.post("/register", register);
-router.route("/").post(checkRole, createUser).get(checkRole, getAllUsers);
-router.route("/:id").get(getUser).put(updateUser).delete(deleteUser);
+router
+  .route("/")
+  .post(createUser)
+  .get(checkLogin, authorization("User"), getAllUsers);
+router
+  .route("/:id")
+  .get(getUser)
+  .put(updateUser)
+  .delete(authorization, deleteUser);
 
 module.exports = router;
